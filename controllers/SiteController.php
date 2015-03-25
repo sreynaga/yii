@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\EntryForm;
+use app\models\Country;
 
 class SiteController extends Controller
 {
@@ -117,9 +118,25 @@ class SiteController extends Controller
             // either the page is initially displayed or there is some validation error
 
             $arrData['model'] = $model;
-            
+
             return $this->render('entry', $arrData);
         }
+    }
+
+    public function actionCountry()
+    {
+        // get all rows from the country table and order them by "name"
+        $countries = Country::find()->orderBy('name')->all();
+
+        // get the row whose primary key is "US"
+        $country = Country::findOne('US');
+
+        // displays "United States"
+        echo $country->name;
+
+        // modifies the country name to be "U.S.A." and save it to database
+        $country->name = 'U.S.A.';
+        $country->save();
     }
 
 }
